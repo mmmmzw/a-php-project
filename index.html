@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Flat UI Kit Free is a Twitter Bootstrap Framework design and Theme, this responsive framework includes a PSD and HTML version."/>
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+	 <!-- Loading Bootstrap -->
+    <link href="dist/css/vendor/bootstrap.min.css" rel="stylesheet">
+    <!-- Loading Flat UI -->
+    <link href="dist/css/flat-ui.css" rel="stylesheet">
+    <link href="docs/assets/css/demo.css" rel="stylesheet">
+    <link rel="shortcut icon" href="dist/favicon.ico">
+	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	<script type="text/javascript">
+			var user_input = document.getElementsByClassName('form-control login-field');
+			/*var password = user_input.value;*/
+			function login(){
+			var name = user_input[0].value;
+			var password = user_input[1].value;
+			var captcha = user_input[2].value;
+			// console.log("name:",name,"pwd:",password,"captcha:",captcha);
+			$.post('login_check.php',{name:name,password:password,captcha:captcha},function(e){
+				// console.log("e: ",e,"---------       ");
+					switch(e){
+						case '2':
+						alert('验证码不正确');
+						break;
+						case '0':
+						window.location.href = './index0.php'
+						break;
+						case '1':
+						window.location.href = './index1.php'
+						break;
+						default:
+						alert('用户名不存在or密码错误or不是管理员用户');
+					}
+			})	
+		}
+	</script>
+</head>
+<body>
+<div class="container">
+	<div class="login">
+        <div class="login-screen">
+          <div class="login-icon">
+            <img src="docs/assets/images/login/icon.png" alt="Welcome to Mail App" />
+            <h4>Welcome to <small>MY App</small></h4>
+          </div>
+
+          <div class="login-form">
+            <div class="form-group">
+              <input type="text" class="form-control login-field" value="" placeholder="用户名" id="login-name" />
+              <label class="login-field-icon fui-user" for="login-name"></label>
+            </div>
+
+            <div class="form-group">
+              <input type="password" class="form-control login-field" value="" placeholder="密码" id="login-pass" />
+              <label class="login-field-icon fui-lock" for="login-pass"></label>
+						</div>
+						
+						<!-- 验证码 -->
+						<form action="./captcha_login.php" method="post">
+							<div>
+								<input class="form-control login-field" style="width: 60%;float: left;" type="text" name="captcha" placeholder="请输入验证码">
+								<img style="width: 12vh;height: 5vh;float: right;" src="captcha_image.php"  onclick="this.src='captcha_image.php?'+new Date().getTime();">
+							</div>
+
+							<br/><br/>
+						</form>
+
+            <a class="btn btn-primary btn-lg btn-block" href="#" onclick="login()">登录</a>
+            <div class="row">
+            	<a class="login-link col-md-6" href="./forget_pwd.php" >忘记密码?</a> 
+            	<a class="login-link col-md-6" href="./sign_up.php" >注册</a> 
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+</body>
+</html>
